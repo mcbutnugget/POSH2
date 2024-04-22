@@ -206,6 +206,8 @@ var POSH = {
             await this.fileSystem.createFile("bin/newUsr.js", await readDisk("../js/POSHfiles/newUsr.js"));
             await POSH.say("p/bin/boot.js\n");
             await this.fileSystem.createFile("bin/boot.js", await readDisk("../js/POSHfiles/boot.js"));
+            await POSH.say("p/bin/login.js\n");
+            await this.fileSystem.createFile("bin/login.js", await readDisk("../js/POSHfiles/login.js"));
             POSH.forgroundColor = "white";
             await POSH.say("POSH2 has been installed!");
 
