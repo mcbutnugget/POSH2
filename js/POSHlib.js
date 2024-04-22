@@ -190,16 +190,26 @@ var POSH = {
         await this.fileSystem.chooseRootFolder(); 
         var FolderContents = await this.fileSystem.readFolder("/");
         this.pause(10);
+        await POSH.clear();
         if(FolderContents==0){
+            await POSH.say("installing POSH...");
+            await POSH.say("p/main");
             await this.fileSystem.createFolder("main");
+            await POSH.say("p/bin");
             await this.fileSystem.createFolder("bin");
+            await POSH.say("p/home");
             await this.fileSystem.createFolder("home");
+            await POSH.say("p/etc");
             await this.fileSystem.createFolder("etc");
+            await POSH.say("p/bin/newUsr.js");
             await this.fileSystem.createFile("bin/newUsr.js", await readDisk("../js/POSHfiles/newUsr.js"));
+            await POSH.say("p/bin/boot.js");
+            await this.fileSystem.createFile("bin/boot.js", await readDisk("../js/POSHfiles/boot.js"));
+
         } 
         (async () => {
             FolderContents = await POSH.fileSystem.readFolder("/home");
-            if(FolderContents==0) await eval(await POSH.fileSystem.readFile("bin/newUsr.js")); else await eval(await POSH.fileSystem.readFile("boot.js"));
+            if(FolderContents==0) await eval(await POSH.fileSystem.readFile("bin/newUsr.js")); else await eval(await POSH.fileSystem.readFile("bin/login.js"));
         })();
     },
     async pause(amount) {
