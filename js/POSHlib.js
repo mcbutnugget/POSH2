@@ -192,19 +192,22 @@ var POSH = {
         this.pause(10);
         await POSH.clear();
         if(FolderContents==0){
-            await POSH.say("installing POSH...");
-            await POSH.say("p/main");
+            await POSH.say("installing POSH...\n");
+            POSH.forgroundColor = "rgb(0,255,0)";
+            await POSH.say("p/main\n");
             await this.fileSystem.createFolder("main");
-            await POSH.say("p/bin");
+            await POSH.say("p/bin\n");
             await this.fileSystem.createFolder("bin");
-            await POSH.say("p/home");
+            await POSH.say("p/home\n");
             await this.fileSystem.createFolder("home");
-            await POSH.say("p/etc");
+            await POSH.say("p/etc\n");
             await this.fileSystem.createFolder("etc");
-            await POSH.say("p/bin/newUsr.js");
+            await POSH.say("p/bin/newUsr.js\n");
             await this.fileSystem.createFile("bin/newUsr.js", await readDisk("../js/POSHfiles/newUsr.js"));
-            await POSH.say("p/bin/boot.js");
+            await POSH.say("p/bin/boot.js\n");
             await this.fileSystem.createFile("bin/boot.js", await readDisk("../js/POSHfiles/boot.js"));
+            POSH.forgroundColor = "white";
+            await POSH.say("POSH2 has been installed!");
 
         } 
         (async () => {

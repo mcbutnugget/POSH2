@@ -17,13 +17,14 @@
     const salt = await POSH.Staple.generateSalt(1200);
     const hash = await POSH.Staple.hash(pass,salt);
     POSH.forgroundColor = "white";
-    await POSH.say(`creating your new user...`);
+    await POSH.say(`creating your new user...\n`);
     //these edit your files on the root folder you selected, you can set the root folder to an external storage device to move your copy of POSH
     await POSH.fileSystem.createFolder(`home/${usr}`);
     await POSH.fileSystem.createFolder(`bin/pad/${usr}`);
+    await POSH.fileSystem.createFolder(`home/${usr}/main`);
     await POSH.fileSystem.createFile(`bin/pad/${usr}/s.txt`,salt);
     await POSH.fileSystem.createFile(`bin/pad/${usr}/h.txt`,hash);
-    await POSH.say("your user has been created!");
+    await POSH.say("your user has been created!\n");
     await eval(await POSH.fileSystem.readFile(`bin/boot.js`))
 
 })();
