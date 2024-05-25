@@ -7,9 +7,9 @@
     await POSH.say("Type your username\n");
     await POSH.say("?>");
     //a brand new command! the txtInput detects inputs as if you are typing in a shell
-    const usr = await POSH.txtInput();
+    window.currentUser = await POSH.txtInput();
     await POSH.say(`Input your password\n`);
-    await POSH.say(`?${usr}>`);
+    await POSH.say(`?${window.currentUser}>`);
     //more commands! you no longer use the setColor command for foreground and background
     //this one set's the color to black
     POSH.forgroundColor = "black";
@@ -19,11 +19,11 @@
     POSH.forgroundColor = "white";
     await POSH.say(`creating your new user...\n`);
     //these edit your files on the root folder you selected, you can set the root folder to an external storage device to move your copy of POSH
-    await POSH.fileSystem.createFolder(`home/${usr}`);
-    await POSH.fileSystem.createFolder(`bin/pad/${usr}`);
-    await POSH.fileSystem.createFolder(`home/${usr}/main`);
-    await POSH.fileSystem.createFile(`bin/pad/${usr}/s.txt`,salt);
-    await POSH.fileSystem.createFile(`bin/pad/${usr}/h.txt`,hash);
+    await POSH.fileSystem.createFolder(`home/${window.currentUser}`);
+    await POSH.fileSystem.createFolder(`bin/pad/${window.currentUser}`);
+    await POSH.fileSystem.createFolder(`home/${window.currentUser}/main`);
+    await POSH.fileSystem.createFile(`bin/pad/${window.currentUser}/s.txt`,salt);
+    await POSH.fileSystem.createFile(`bin/pad/${window.currentUser}/h.txt`,hash);
     await POSH.say("your user has been created!\n");
     await eval(await POSH.fileSystem.readFile(`bin/boot.js`))
 

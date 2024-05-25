@@ -146,20 +146,34 @@ var POSH = {
         async readFile(path) {
             try {
                 if (!this.rootFolder) await this.chooseRootFolder();
-    
+        
                 // Split the path into individual directory names and the file name
                 const segments = path.split('/');
-                const fileName = segments.pop(); // Get the file name
-                const directoryPath = segments.join('/'); // Get the directory path
-    
-                // Get the directory handle for the parent directory
-                const parentDirectoryHandle = await this.rootFolder.getDirectoryHandle(directoryPath);
-    
+                const fileName = segments.pop();
+                const directoryPath = segments.join('/');
+        
+                // Recursive function to traverse nested directories
+                const traverseDirectory = async (directoryHandle, pathSegments) => {
+                    if (pathSegments.length === 0) {
+                        // If there are no more directories to traverse, return the current directory handle
+                        return directoryHandle;
+                    } else {
+                        // Get the next directory handle
+                        const nextDirectoryName = pathSegments.shift();
+                        const nextDirectoryHandle = await directoryHandle.getDirectoryHandle(nextDirectoryName);
+                        // Recursively traverse the next directory
+                        return traverseDirectory(nextDirectoryHandle, pathSegments);
+                    }
+                };
+        
+                // Start traversing from the root folder
+                const parentDirectoryHandle = await traverseDirectory(this.rootFolder, directoryPath.split('/'));
+        
                 // Get the file handle and read its contents
                 const fileHandle = await parentDirectoryHandle.getFileHandle(fileName);
                 const file = await fileHandle.getFile();
                 const contents = await file.text();
-    
+        
                 console.log(`Contents of file "${path}":`, contents);
                 return contents;
             } catch (error) {
@@ -208,6 +222,10 @@ var POSH = {
             await this.fileSystem.createFile("bin/boot.js", await readDisk("../js/POSHfiles/boot.js"));
             await POSH.say("p/bin/login.js\n");
             await this.fileSystem.createFile("bin/login.js", await readDisk("../js/POSHfiles/login.js"));
+            await POSH.say("p/bin/exe\n");
+            await this.fileSystem.createFolder("bin/exe");
+            await POSH.say("p/bin/exe/ls.js");
+            await this.fileSystem.createFile("bin/exe/ls.js", await readDisk("../js/POSHfiles/exe/ls.js"));
             POSH.forgroundColor = "white";
             await POSH.say("POSH2 has been installed!");
 
