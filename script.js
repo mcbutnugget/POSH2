@@ -23,7 +23,7 @@ async function reload(){
     }else if(currentTab=="our products"){
         page.innerHTML = await readDisk("/html/products.html");
         POSH.shellStyles.background  = "rgb(30,40,50)";
-    }else if(currentTab=="about us"){
+    }else if(currentTab=="help"){
         page.innerHTML = await readDisk("/html/help.html");
         POSH.shellStyles.background  = "rgb(30,30,30)";
     }
