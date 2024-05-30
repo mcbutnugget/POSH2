@@ -380,7 +380,10 @@ var POSH = {
             await this.fileSystem.createFile("bin/exe/help.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/help.js"));
             await POSH.say("p/etc/sn.js\n");
             await this.fileSystem.createFile("etc/sn.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/etc/sn.js"));
-
+            await POSH.say("p/bin/exe/FiSi.js\n")
+            await this.fileSystem.createFile("etc/sn.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/etc/fiSi.js"));
+            await POSH.say("p/bin/exe/AFiCoM.js\n")
+            await this.fileSystem.createFile("etc/sn.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/etc/AFiCoM.js"));
             POSH.text.forgroundColor = "white";
             await POSH.say("\nPOSH2 has been installed!\n");
 
