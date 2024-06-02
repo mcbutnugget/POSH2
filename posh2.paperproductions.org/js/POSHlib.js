@@ -23,6 +23,27 @@ async function readDisk(filePath) {
     }
 }
 
+function createKeyHandler() {
+    const keys = {};
+
+    const keyDownHandler = (event) => {
+        keys[event.key] = true;
+    };
+
+    const keyUpHandler = (event) => {
+        keys[event.key] = false;
+    };
+
+    document.addEventListener('keydown', keyDownHandler);
+    document.addEventListener('keyup', keyUpHandler);
+
+    return () => keys;
+}
+window.PresentKeys = createKeyHandler();
+window.Key = PresentKeys();
+
+
+
 var POSH = {
     fileSystem:{
         rootFolder: null,
