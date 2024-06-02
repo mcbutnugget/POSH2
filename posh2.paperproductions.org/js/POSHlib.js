@@ -24,20 +24,30 @@ async function readDisk(filePath) {
 }
 
 function createKeyHandler() {
-    const keys = {};
+    const keys = {}; // Store the state of keys (pressed/released)
 
     const keyDownHandler = (event) => {
-        keys[event.key] = true;
+        keys[event.key] = true; // Mark the key as pressed
     };
 
     const keyUpHandler = (event) => {
-        keys[event.key] = false;
+        keys[event.key] = false; // Mark the key as released
     };
 
     document.addEventListener('keydown', keyDownHandler);
     document.addEventListener('keyup', keyUpHandler);
 
-    return () => keys;
+    keys["detect"] = () => {
+        // This is the new "detect" method
+        for (const key in keys) { 
+            if (keys[key]) {
+                return key; // Return the first pressed key found
+            }
+        }
+        return null; // No keys are currently pressed
+    };
+
+    return keys;
 }
 window.PresentKeys = createKeyHandler();
 window.Key = PresentKeys();
