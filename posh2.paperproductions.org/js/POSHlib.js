@@ -47,7 +47,7 @@ function createKeyHandler() {
         return null; // No keys are currently pressed
     };
 
-    return keys;
+    return ()=> keys;
 }
 window.PresentKeys = createKeyHandler();
 window.Key = PresentKeys();
