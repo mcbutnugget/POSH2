@@ -11,6 +11,8 @@
     cat path/to/file -> displays the data inside of said file
     ls -> displays all folders and files in the current folder
     logout -> logs out of the current user
+    FiSi path/to/file -> shows the size of a file
+    AFiCoM -> shows the help for AFiCoM
     
     
     
@@ -18,7 +20,18 @@
     
     1. creating a .js file
     2. edit it with 'sn'
-    3. input the path of the js file, but don't include .js
+    3. input the path of the js file, but don't include .js, example:
+
+    sn command.js
+
+    (async()=>{
+        POSH.say("\\nhello world!\\n");
+    })();
+
+    ctrl+e
+    save
+    exit
+    ./command.js
     
     and you have created a command!
     
