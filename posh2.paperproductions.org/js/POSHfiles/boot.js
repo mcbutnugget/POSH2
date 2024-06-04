@@ -2,7 +2,20 @@
     window.currentLocation = `/home/${window.currentUser}/main`
     await POSH.say(`welcome to POSH2 ${window.currentUser}!\n\n`)
     await POSH.say("type 'help' for a list of commands\n");
-    await run();
+    try{
+        await run();
+    }catch(err){
+
+        var aux = err.stack.split("\n");
+        aux.splice(0, 2); //removing the line that we force to generate the error (var err = new Error();) from the message
+        aux = aux.join('\n"');
+
+        POSH.text.forgroundColor = "red";
+        await POSH.say("\n\n"+err+"\n\n" + aux+"\n\n");
+        POSH.text.forgroundColor = "white";
+
+        await run();
+    }
 })();
 async function run(){
     POSH.text.forgroundColor = "cyan";
@@ -25,7 +38,7 @@ async function run(){
 
     var location = "/bin/exe";
     var newLocation = fixInput[0];
-    //console.log(newLocation)
+    //console.log(newLocation);
     newLocation = `${location}/${newLocation}`;
     //console.log(newLocation)
     newLocation = newLocation.replace(/^(.*)\/\//,"");
