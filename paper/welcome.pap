@@ -1,0 +1,4 @@
+* add POSH2;
+
+say("welcome to POSH2 %USR%!\n");
+say("type 'help' for a list of commands\n");
