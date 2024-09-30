@@ -53,9 +53,9 @@ async function cmdMode(){
     }else if(commandMode == "exit"){}
     else{
         POSH.text.forgroundColor = "red";
-        POSH.say("\nthat isn't a command, try one of the ones above\n");
+        await POSH.say("\nthat isn't a command, try one of the ones above\n");
         POSH.text.forgroundColor = "white";
-        cmdMode();
+        await cmdMode();
     }
 }
 async function editMode(fileData){

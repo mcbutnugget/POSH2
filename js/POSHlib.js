@@ -151,33 +151,38 @@ var POSH = {
             try {
                 if (!this.rootFolder) await this.chooseRootFolder();
         
-            if(path.includes("/")){
-                // Split the path into individual directory names and the file name
+                // Split path into individual directory names and the file/folder name
                 const segments = path.split('/');
-                const fileName = segments.pop(); // Get the file name
-                const directoryPath = segments.join('/'); // Get the directory path
-        
+                const nameToDelete = segments.pop(); // Get the file/folder name
                 let parentDirectoryHandle = this.rootFolder;
         
-                // Loop through each directory in the path and get its handle
-                for (const directory of directoryPath.split('/')) {
-                    parentDirectoryHandle = await parentDirectoryHandle.getDirectoryHandle(directory);
+                if (segments.length > 0) {
+                    // Traverse directories
+                    for (const directory of segments) {
+                        parentDirectoryHandle = await parentDirectoryHandle.getDirectoryHandle(directory);
+                    }
                 }
         
-                // Get the file handle and remove it
-                await parentDirectoryHandle.removeEntry(fileName);
+                // Check if it is a file or folder and remove accordingly
+                const entry = await parentDirectoryHandle.getFileHandle(nameToDelete, { create: false })
+                    .catch(async () => {
+                        return await parentDirectoryHandle.getDirectoryHandle(nameToDelete, { create: false });
+                    });
         
-                //console.log(`Deleted: ${path}`);
-            }else{
-                await this.rootFolder.removeEntry(path);
-            }
+                // Now delete the entry
+                if (entry) {
+                    await parentDirectoryHandle.removeEntry(nameToDelete);
+                    console.log(`Deleted: ${path}`);
+                } else {
+                    console.error("Entry not found.");
+                }
             } catch (error) {
                 POSH.text.forgroundColor = "rgb(255,0,0)";
-                //POSH.say(`\nError deleting: ${error}\n`);
-                console.error(`\nError deleting: ${error}\n`);
+                console.error(`Error deleting: ${error}`);
                 POSH.text.forgroundColor = "white";
             }
-        },
+        }
+        ,
         async readFolder(path) {
             try {
                 if (!this.rootFolder) await this.chooseRootFolder();
@@ -382,39 +387,39 @@ var POSH = {
             await POSH.say("p/tmp\n");
             await this.fileSystem.createFolder("tmp");
             await POSH.say("p/bin/newUsr.js\n");
-            await this.fileSystem.createFile("bin/newUsr.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/newUsr.js"));
+            await this.fileSystem.createFile("bin/newUsr.js", await readDisk("/js/POSHfiles/newUsr.js"));
             await POSH.say("p/bin/boot.js\n");
-            await this.fileSystem.createFile("bin/boot.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/boot.js"));
+            await this.fileSystem.createFile("bin/boot.js", await readDisk("/js/POSHfiles/boot.js"));
             await POSH.say("p/bin/login.js\n");
-            await this.fileSystem.createFile("bin/login.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/login.js"));
+            await this.fileSystem.createFile("bin/login.js", await readDisk("/js/POSHfiles/login.js"));
             await POSH.say("p/bin/setupPC.js\n");
-            await this.fileSystem.createFile("bin/setupPC.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/setupPC.js"));
+            await this.fileSystem.createFile("bin/setupPC.js", await readDisk("/js/POSHfiles/setupPC.js"));
             await POSH.say("p/bin/exe\n");
             await this.fileSystem.createFolder("bin/exe");
             await POSH.say("p/bin/exe/ls.js\n");
-            await this.fileSystem.createFile("bin/exe/ls.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/ls.js"));
+            await this.fileSystem.createFile("bin/exe/ls.js", await readDisk("/js/POSHfiles/exe/ls.js"));
             await POSH.say("p/bin/exe/clear.js\n");
-            await this.fileSystem.createFile("bin/exe/clear.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/clear.js"));
+            await this.fileSystem.createFile("bin/exe/clear.js", await readDisk("/js/POSHfiles/exe/clear.js"));
             await POSH.say("p/bin/exe/cd.js\n");
-            await this.fileSystem.createFile("bin/exe/cd.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/cd.js"));
+            await this.fileSystem.createFile("bin/exe/cd.js", await readDisk("/js/POSHfiles/exe/cd.js"));
             await POSH.say("p/bin/exe/cat.js\n");
-            await this.fileSystem.createFile("bin/exe/cat.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/cat.js"));
+            await this.fileSystem.createFile("bin/exe/cat.js", await readDisk("/js/POSHfiles/exe/cat.js"));
             await POSH.say("p/bin/exe/logout.js\n");
-            await this.fileSystem.createFile("bin/exe/logout.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/logout.js"));
+            await this.fileSystem.createFile("bin/exe/logout.js", await readDisk("/js/POSHfiles/exe/logout.js"));
             await POSH.say("p/bin/exe/mkdir.js\n");
-            await this.fileSystem.createFile("bin/exe/mkdir.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/mkdir.js"));
+            await this.fileSystem.createFile("bin/exe/mkdir.js", await readDisk("/js/POSHfiles/exe/mkdir.js"));
             await POSH.say("p/bin/exe/rm.js\n");
-            await this.fileSystem.createFile("bin/exe/rm.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/rm.js"));
+            await this.fileSystem.createFile("bin/exe/rm.js", await readDisk("/js/POSHfiles/exe/rm.js"));
             await POSH.say("p/bin/exe/sn.js\n");
-            await this.fileSystem.createFile("bin/exe/sn.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/sn.js"));
+            await this.fileSystem.createFile("bin/exe/sn.js", await readDisk("/js/POSHfiles/exe/sn.js"));
             await POSH.say("p/bin/exe/help.js\n");
-            await this.fileSystem.createFile("bin/exe/help.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/help.js"));
+            await this.fileSystem.createFile("bin/exe/help.js", await readDisk("/js/POSHfiles/exe/help.js"));
             await POSH.say("p/etc/sn.js\n");
-            await this.fileSystem.createFile("etc/sn.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/etc/sn.js"));
+            await this.fileSystem.createFile("etc/sn.js", await readDisk("/js/POSHfiles/etc/sn.js"));
             await POSH.say("p/bin/exe/FiSi.js\n")
-            await this.fileSystem.createFile("bin/exe/FiSi.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/fiSi.js"));
+            await this.fileSystem.createFile("bin/exe/FiSi.js", await readDisk("/js/POSHfiles/exe/fiSi.js"));
             await POSH.say("p/bin/exe/AFiCoM.js\n")
-            await this.fileSystem.createFile("bin/exe/AFiCoM.js", await readDisk("https://posh2.paperproductions.org/js/POSHfiles/exe/AFiCoM.js"));
+            await this.fileSystem.createFile("bin/exe/AFiCoM.js", await readDisk("/js/POSHfiles/exe/AFiCoM.js"));
             POSH.text.forgroundColor = "white";
             await POSH.say("\nPOSH2 has been installed!\n");
 
@@ -508,6 +513,7 @@ var POSH = {
     ,
     async clear(){
         document.querySelector("body").innerHTML = "";
+        console.clear();
     }
 }
 setInterval(function() {
