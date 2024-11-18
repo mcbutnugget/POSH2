@@ -516,6 +516,3 @@ var POSH = {
         console.clear();
     }
 }
-setInterval(function() {
-    document.body.style.background = POSH.shellStyles.background;
-},1);
